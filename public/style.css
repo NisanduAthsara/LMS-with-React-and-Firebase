@@ -1,0 +1,12 @@
+.light-text{
+    font-weight: 400;
+}
+
+.send-button{
+    margin-left:15px;
+}
+
+.scroll{
+    height:400px;
+    overflow-y: scroll;
+}
