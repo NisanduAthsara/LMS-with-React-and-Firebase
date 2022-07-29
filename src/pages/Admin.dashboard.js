@@ -42,6 +42,7 @@ export default function Admin(){
                 <h3>{user.email}</h3>
             </div>
             <a href="/admin/new/signup">New Admin</a>
+            <a href="/all/students">All Students</a>
             <button onClick={handleSignout}>LogOut</button>
         </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 import Context from '../Auth.Context'
 import StudentContext from '../Student.Context'
-import {getAuth,onAuthStateChanged,getUserData,signOut} from 'firebase/auth'
+import {getAuth,onAuthStateChanged,getUserData,signOut,deleteUser} from 'firebase/auth'
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom'
 import StudentTable from '../components/Student.Table'
@@ -12,8 +12,12 @@ export default function Student(){
     const [allStudents,setAllStudents] = React.useState([])
     const [studentElements,setStudentElements] = React.useState(null)
     const {getUserDetails} = React.useContext(Context)
-    const {getStudents} = React.useContext(StudentContext)
+    const {getStudents,delStudent} = React.useContext(StudentContext)
     const auth = getAuth()
+
+    const deleteStudent = async(id)=>{
+        const del = await delStudent(id)
+    }
 
     React.useEffect(async()=>{
         onAuthStateChanged(auth,(data)=>{
@@ -39,11 +43,16 @@ export default function Student(){
 
     React.useEffect(()=>{
         const stdArr = allStudents.map((std)=>{
+            console.log(std.id)
             return <StudentTable
                 name={std.name}
                 email={std.email}
                 index={std.index}
                 uid={std.uid}
+                deleteStudent={deleteStudent}
+                id={std.id}
+                classNo={std.class}
+                grade={std.grade}
             />
         })
         setStudentElements(stdArr)
@@ -65,6 +74,8 @@ export default function Student(){
                         <th>Name</th>
                         <th>Email</th>
                         <th>Index No.</th>
+                        <th>Class No.</th>
+                        <th>Grade</th>
                     </tr>
                     {studentElements}
                 </table>

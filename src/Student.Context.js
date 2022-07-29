@@ -1,5 +1,5 @@
 import React,{createContext,useEffect,useState} from 'react'
-import { collection,addDoc,getDocs,onSnapshot,query,where} from "firebase/firestore";
+import { collection,addDoc,getDocs,onSnapshot,query,where,deleteDoc,doc} from "firebase/firestore";
 import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword} from 'firebase/auth'
 import {database} from './firebaseConfig'
 import { useCookies } from 'react-cookie';
@@ -21,8 +21,19 @@ export function StudentContext({children}){
         return students
     }
 
+    const delStudent = async(id)=>{
+        try{
+            const docToDel = doc(database,'users',id)
+            const del = await deleteDoc(docToDel)
+            alert('Successfully user deleted')
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     const values = {
-        getStudents
+        getStudents,
+        delStudent
     }
 
     return(

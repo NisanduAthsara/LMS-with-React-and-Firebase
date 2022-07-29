@@ -11,7 +11,7 @@ export default function SignUp(){
 
     const handleSubmit = (e)=>{
         e.preventDefault()
-        register(crediantials.name,crediantials.email,crediantials.password,crediantials.index)
+        register(crediantials.name,crediantials.email,crediantials.password,crediantials.grade,crediantials.classNo,crediantials.index)
     }
 
     return(
@@ -21,6 +21,8 @@ export default function SignUp(){
                 <input type="email" name='email' value={crediantials.email} onChange={(e)=>handleChange(e)} placeholder='Email'/>
                 <input type="password" name='password' value={crediantials.password} onChange={(e)=>handleChange(e)} placeholder='Password'/>
                 <input type="text" name='index' value={crediantials.index} onChange={(e)=>handleChange(e)} placeholder='Index No.'/>
+                <input type="number" name='grade' value={crediantials.grade} onChange={(e)=>handleChange(e)} placeholder='Grade'/>
+                <input type="text" name='classNo' value={crediantials.classNo} onChange={(e)=>handleChange(e)} placeholder='Class No.'/>
 
                 <button onClick={(e)=>handleSubmit(e)}>Register</button>
             </form>

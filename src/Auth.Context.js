@@ -14,7 +14,7 @@ export function AuthContext({children}){
     const collectionRef = collection(database,'users')
     const [authState,setAuthState] = useState()
 
-    const register = async (name,email,password,index)=>{
+    const register = async (name,email,password,grade,classNo,index)=>{
         const indexQuery = query(collectionRef,where("index","==",index))
         const data = await getDocs(indexQuery)
         if(data.docs.length > 0){
@@ -29,6 +29,8 @@ export function AuthContext({children}){
                         email,
                         index,
                         uid,
+                        grade,
+                        class:classNo,
                         type:'Student'
                     })
                     .then((data)=>{
