@@ -34,7 +34,7 @@ export function AuthContext({children}){
                     .then((data)=>{
                         setCookie('token',uid)
                         alert('User added');
-                        window.location.assign('/admin/dashboard')
+                        window.location.assign('/student/dashboard')
                     })
                     .catch((err)=>{
                         console.log(err.message)
@@ -45,6 +45,29 @@ export function AuthContext({children}){
                 })
         }
     }
+
+    const adminRegister = async (name,email,password)=>
+        createUserWithEmailAndPassword(auth,email,password)
+            .then((data)=>{
+                let uid = data.user.uid
+                addDoc(collectionRef,{
+                    name,
+                    email,
+                    uid,
+                    type:'Admin'
+                })
+                .then((data)=>{
+                    setCookie('token',uid)
+                    alert('User added');
+                    window.location.assign('/admin/dashboard')
+                })
+                .catch((err)=>{
+                    console.log(err.message)
+                })
+            })
+            .catch((err)=>{
+                alert('Email already in use')
+            })
 
     const login = async(email,password)=>{
         signInWithEmailAndPassword(auth,email,password)
@@ -84,7 +107,8 @@ export function AuthContext({children}){
     const values = {
         register,
         login,
-        getUserDetails
+        getUserDetails,
+        adminRegister
     }
 
     return(
