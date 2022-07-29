@@ -15,16 +15,6 @@ export default function Login(){
         e.preventDefault()
         login(crediantials.email,crediantials.password)
     }
-
-    React.useEffect(()=>{
-        onAuthStateChanged(auth,(data)=>{
-            if(data){
-                alert('logged in')
-            }else{
-                alert('not logged in')
-            }
-        })
-    },[])
     return(
         <div>
             <h1>Login</h1>

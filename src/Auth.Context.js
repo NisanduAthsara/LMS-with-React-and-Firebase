@@ -32,7 +32,9 @@ export function AuthContext({children}){
                         type:'Student'
                     })
                     .then((data)=>{
-                        alert('User added')
+                        setCookie('token',uid)
+                        alert('User added');
+                        window.location.assign('/admin/dashboard')
                     })
                     .catch((err)=>{
                         console.log(err.message)
@@ -53,9 +55,14 @@ export function AuthContext({children}){
                 if(data.docs.length > 0){
                     setCookie('token',uid)
                     alert('Logged in successful')
-                    console.log(data.docs.map((item)=>{
+                    const user = data.docs.map((item)=>{
                         return {...item.data(),id:item.id}
-                    }))
+                    })[0]
+                    if(user.type === 'Student'){
+                        window.location.assign('/student/dashboard')
+                    }else if(user.type === 'Admin'){
+                        window.location.assign('/admin/dashboard')
+                    }
                 }else{
                     alert('Invalid email or password')
                 }
@@ -65,9 +72,19 @@ export function AuthContext({children}){
             })
     }
 
+    const getUserDetails = async(id)=>{
+        const uidQuery = query(collectionRef,where("uid","==",id))
+        const data = await getDocs(uidQuery)
+        const user = data.docs.map((item)=>{
+            return {...item.data()}
+        })
+        return user[0]
+    }
+
     const values = {
         register,
-        login
+        login,
+        getUserDetails
     }
 
     return(
