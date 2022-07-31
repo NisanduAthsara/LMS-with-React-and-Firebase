@@ -16,7 +16,8 @@ export default function Student(){
     const auth = getAuth()
 
     const deleteStudent = async(id)=>{
-        const del = await delStudent(id)
+        const students = await delStudent(id)
+        setAllStudents(students)
     }
 
     React.useEffect(async()=>{

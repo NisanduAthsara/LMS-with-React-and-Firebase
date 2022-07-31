@@ -36,6 +36,7 @@ export default function Admin(){
             <div>
                 <h1>{user.name}</h1>
                 <h3>{user.email}</h3>
+                <a href="/student/all/assignments">All Assignments</a>
             </div>
             <button onClick={handleSignout}>LogOut</button>
         </div>

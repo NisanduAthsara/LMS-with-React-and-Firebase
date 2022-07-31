@@ -11,6 +11,7 @@ export function StudentContext({children}){
     const [cookies, setCookie,removeCookie] = useCookies(['token']);
     const auth = getAuth()
     const collectionRef = collection(database,'users')
+    const assignmentRef = collection(database,'assignment')
 
     const getStudents = async ()=>{
         const typeQuery = query(collectionRef,where("type","==",'Student'))
@@ -25,7 +26,29 @@ export function StudentContext({children}){
         try{
             const docToDel = doc(database,'users',id)
             const del = await deleteDoc(docToDel)
+            const users = await getStudents()
             alert('Successfully user deleted')
+            return users
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const getAllAssignmentSections = async(grade)=>{
+        try{
+            const gradeQuery = query(assignmentRef,where("grade","==",grade))
+            const allSections = await getDocs(gradeQuery)
+            const arr = allSections.docs.map((item)=>{
+                return {...item.data(),id:item.id}
+            })
+            if(allSections.docs.length > 0){
+                const sections = arr.map((item)=>{
+                    return {...item,id:item.id}
+                })
+                return sections
+            }else{
+                return {}
+            }
         }catch(err){
             console.log(err)
         }
@@ -33,7 +56,8 @@ export function StudentContext({children}){
 
     const values = {
         getStudents,
-        delStudent
+        delStudent,
+        getAllAssignmentSections
     }
 
     return(

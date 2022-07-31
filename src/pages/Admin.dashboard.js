@@ -43,6 +43,7 @@ export default function Admin(){
             </div>
             <a href="/admin/new/signup">New Admin</a>
             <a href="/all/students">All Students</a>
+            <a href="/all/assignments">Assignment Sections</a>
             <button onClick={handleSignout}>LogOut</button>
         </div>
     )
