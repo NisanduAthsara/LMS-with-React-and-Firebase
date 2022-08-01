@@ -14,6 +14,7 @@ import Students from './pages/Students'
 import AssignmentSections from './pages/Assignment.Section'
 import AddAssignmentSection from './pages/Assignment.Add'
 import StudentAssignment from './pages/Student.Assignments'
+import AssignmentUpdate from './pages/Update.Assignment'
 
 export default function App(){
     return(
@@ -30,6 +31,7 @@ export default function App(){
                 <Route path='/all/students' element={<Students/>}/>
                 <Route path='/all/assignments' element={<AssignmentSections/>}/>
                 <Route path="/new/assignment/section" element={<AddAssignmentSection/>}/>
+                <Route path="/assignment/options/:id" element={<AssignmentUpdate/>}/>
                 <Route path="/student/all/assignments" element={<StudentAssignment/>}/>
             </Routes>
         </AdminContext>    
