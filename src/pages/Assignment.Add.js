@@ -10,6 +10,7 @@ export default function AssignmentSectionAdd(){
     const {getUserDetails} = React.useContext(Context)
     const {addNewAssignmentSection} = React.useContext(AdminContext)
     const [data,setData] = React.useState({})
+    const [file,setFile] = React.useState({})
     const [cookies, setCookie,removeCookie] = useCookies(['token']);
     const auth = getAuth()
 
@@ -37,9 +38,17 @@ export default function AssignmentSectionAdd(){
         setData({...data,...{[e.target.name]:e.target.value}})
     }
 
+    const handleFileChange = (e)=>{
+        setFile(e.target.files[0])
+    }
+
     const handleSubmit = (e)=>{
         e.preventDefault()
-        addNewAssignmentSection(data.name,data.grade,user.name)
+        if(file.type !== 'application/pdf'){
+            alert('You must upload pdf files')
+        }else{
+            addNewAssignmentSection(data.name,data.grade,user.name,file)
+        }
     }
 
     return(
@@ -47,6 +56,7 @@ export default function AssignmentSectionAdd(){
             <form>
                 <input type="text" name='name' value={data.name} onChange={(e)=>handleChange(e)} placeholder='Name'/>
                 <input type="number" name='grade' value={data.grade} onChange={(e)=>handleChange(e)} placeholder='Grade'/>
+                <input type="file" onChange={(e)=>handleFileChange(e)}/>
 
                 <button onClick={(e)=>handleSubmit(e)}>Register</button>
             </form>

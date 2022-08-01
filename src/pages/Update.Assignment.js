@@ -7,10 +7,11 @@ import { Link,useParams } from 'react-router-dom'
 
 export default function UpdateAssignment(){
     const [user,setUser] = React.useState({})
-    const [file,setFile] = React.useState({})
+    const [file,setFile] = React.useState(null)
+    const [formData,setFormData] = React.useState({})
     const [assignmentData,setAssignmentData] = React.useState({})
     const {getUserDetails} = React.useContext(Context)
-    const {getAllAssignmentSectionsById,deleteAssignmentSection,uploadAssignment} = React.useContext(AdminContext)
+    const {getAllAssignmentSectionsById,deleteAssignmentSection,uploadAssignment,deleteAssignmentFile} = React.useContext(AdminContext)
     const [data,setData] = React.useState({})
     const [cookies, setCookie,removeCookie] = useCookies(['token']);
     const auth = getAuth()
@@ -41,6 +42,7 @@ export default function UpdateAssignment(){
             }
             setAssignmentData(assignmentDetails)
             setUser(data)
+            setFormData(assignmentDetails)
         }
         fetchData()
     },[])
@@ -50,23 +52,47 @@ export default function UpdateAssignment(){
     }
 
     const delSection = ()=>{
-        deleteAssignmentSection(id)
+        deleteAssignmentSection(id,assignmentData.assignment)
     }
 
-    const fileUp = async(e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault()
-        uploadAssignment(file,id)
+        if(file){
+            if(file.type !== 'application/pdf'){
+                alert('You must upload pdf files')
+            }else{
+                if(assignmentData.assignment){
+                    uploadAssignment(file,id,formData.name,formData.grade)
+                }else{
+                    uploadAssignment(file,id,formData.name,formData.grade)
+                }
+            }
+        }else{
+            if(assignmentData.assignment){
+                uploadAssignment(file,id,formData.name,formData.grade)
+            }else{
+                uploadAssignment(file,id,formData.name,formData.grade)
+            }
+        }
+
+    }
+
+    const handleChange = (e)=>{
+        console.log(formData)
+        setFormData({...formData,...{[e.target.name]:e.target.value}})
     }
 
     return(
         <div>
-            <h1>jj</h1>
-            <h1>{id}</h1>
             <button onClick={delSection}>Delete</button>
+            {assignmentData.assignment && <button onClick={()=>deleteAssignmentFile(assignmentData.assignment,id)}>Delete Assignment</button>}
             <form>
-                <input type="file" onChange={(e)=>handleFileChange(e)}/>
-                <button onClick={(e)=>fileUp(e)}>Upload</button>
+                <input type="text" name='name' value={formData.name} onChange={(e)=>handleChange(e)} placeholder='Name'/>
+                <input type="text" name='grade' value={formData.grade} onChange={(e)=>handleChange(e)} placeholder='Grade'/>
+                {assignmentData.assignment ? <div></div> : <input type="file" onChange={(e)=>handleFileChange(e)}/>}
+                <button onClick={(e)=>handleSubmit(e)}>Upload</button>
             </form>
+            
         </div>
     )
 }
