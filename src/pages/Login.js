@@ -16,14 +16,24 @@ export default function Login(){
         login(crediantials.email,crediantials.password)
     }
     return(
-        <div>
-            <h1>Login</h1>
-            <form>
-                <input type="email" name='email' value={crediantials.email} onChange={(e)=>handleChange(e)} placeholder='Email'/>
-                <input type="password" name='password' value={crediantials.password} onChange={(e)=>handleChange(e)} placeholder='Password'/>
+        <div className="container my-5">
+            <div className="row">
+                <div className="col">
+                    <h1 className="text-center mb-5">Login</h1>
+                    <form className="form justify-content-center">
+                        <div className="d-flex align-items-center justify-content-center">
+                            <label for="email" className="form-label ml-5">Email: </label>
+                            <input type="email" name='email' id="email" value={crediantials.email} onChange={(e)=>handleChange(e)} placeholder='Email' className="col-4 form form-control w-50"/><br/>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center mt-4">
+                            <label for="password" className="form-label ml-5 mr-5">Password: </label>
+                            <input type="password" name='password' id="password" value={crediantials.password} onChange={(e)=>handleChange(e)} placeholder='Password' className="col-6 form form-control w-50"/>
+                        </div>
 
-                <button onClick={(e)=>handleSubmit(e)}>Login</button>
-            </form>
+                        <button onClick={(e)=>handleSubmit(e)} className="btn btn-primary mx-auto text-center d-flex justify-content-center my-3">Login</button>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }
