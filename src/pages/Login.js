@@ -20,7 +20,7 @@ export default function Login(){
             <div className="row">
                 <div className="col">
                     <h1 className="text-center mb-5">Login</h1>
-                    <form className="form justify-content-center">
+                    <form className="form justify-content-center mb-5">
                         <div className="d-flex align-items-center justify-content-center">
                             <label for="email" className="form-label ml-5">Email: </label>
                             <input type="email" name='email' id="email" value={crediantials.email} onChange={(e)=>handleChange(e)} placeholder='Email' className="col-4 form form-control w-50"/><br/>
@@ -32,6 +32,7 @@ export default function Login(){
 
                         <button onClick={(e)=>handleSubmit(e)} className="btn btn-primary mx-auto text-center d-flex justify-content-center my-3">Login</button>
                     </form>
+                    <div className="text-center mt-5">Haven't an account? <a href="/register">Register</a></div>
                 </div>
             </div>
         </div>
