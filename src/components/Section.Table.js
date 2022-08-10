@@ -9,6 +9,7 @@ export default function SectionTable({name,grade,assignment,id,teacher}){
             <td>{teacher}</td>
             <td>{assignmentTD}</td>
             <td><a href={`/assignment/options/${id}`}>Options</a></td>
+            <td><a href={`/student/submissions/${id}`}>Submissions</a></td>
         </tr>
     )
 }

@@ -1,8 +1,10 @@
 import React,{createContext,useEffect,useState} from 'react'
-import { collection,addDoc,getDocs,onSnapshot,query,where,deleteDoc,doc} from "firebase/firestore";
+import { collection,addDoc,getDocs,getDoc,onSnapshot,query,where,deleteDoc,doc} from "firebase/firestore";
 import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword} from 'firebase/auth'
-import {database} from './firebaseConfig'
+import { ref,refFromURL,getDownloadURL,uploadBytesResumable,deleteObject} from "firebase/storage";
+import {database,storage} from './firebaseConfig'
 import { useCookies } from 'react-cookie';
+import {v4} from 'uuid'
 
 const Student_Context = createContext()
 export default Student_Context
@@ -12,6 +14,7 @@ export function StudentContext({children}){
     const auth = getAuth()
     const collectionRef = collection(database,'users')
     const assignmentRef = collection(database,'assignment')
+    const stdAssignmentRef = collection(database,'std_assignment')
 
     const getStudents = async ()=>{
         const typeQuery = query(collectionRef,where("type","==",'Student'))
@@ -54,10 +57,88 @@ export function StudentContext({children}){
         }
     }
 
+    const uploadAssignment = (file,name,indexNo,grade,id)=>{
+        if(file){
+            const storageRef = ref(storage, `files/${file.name+v4()}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            uploadTask.on('state_changed',(snapshot)=>{
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },(err)=>{
+                console.log(err)
+            },()=>{
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    addDoc(stdAssignmentRef,{
+                        name,
+                        indexNo,
+                        grade,
+                        student_assignment:downloadURL,
+                        uploadedAssignment:id
+                    })
+                    .then(()=>{
+                        alert('Assignment Added')
+                        window.location.assign('/student/all/assignments')
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })
+                });
+            })
+        }
+    }
+
+    const deleteAssignmentSection = (id,downloadURL)=>{
+        const storageRef = ref(storage,downloadURL)
+        if(downloadURL){
+            deleteObject(storageRef)
+            .then(()=>{
+                const docToDel = doc(database,'std_assignment',id)
+                deleteDoc(docToDel)
+                    .then(()=>{
+                        alert('Section Deleted')
+                        window.location.assign('/student/all/assignments')
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        }else{
+            const docToDel = doc(database,'std_assignment',id)
+            deleteDoc(docToDel)
+                .then(()=>{
+                    alert('Section Deleted')
+                    window.location.assign('/student/all/assignments')
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+        }
+    }
+
+    // const getAllAssignmentSectionsById = async(id)=>{
+    //     try{
+    //         const assignmentQuery = query(stdAssignmentRef,where('uploadedAssignment','==',id))
+    //         const assignmentId = await getDocs(assignmentQuery)
+    //         console.log(assignmentId[0].data())
+    //         const allSections = assignmentId[0].data()
+    //         // const idQuery = doc(database, "std_assignment", assignmentId)
+    //         // const allSections = await getDoc(idQuery)
+    //         console.log(allSections)
+    //         return allSections
+    //     }catch(err){
+    //         console.log(err)
+    //     }
+    // }
+
     const values = {
         getStudents,
         delStudent,
-        getAllAssignmentSections
+        getAllAssignmentSections,
+        uploadAssignment,
+        deleteAssignmentSection
     }
 
     return(

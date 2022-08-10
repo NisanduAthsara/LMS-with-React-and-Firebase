@@ -14,6 +14,7 @@ export function AdminContext({children}){
     const auth = getAuth()
     const assignmentRef = collection(database,'assignment')
     const collectionRef = collection(database,'users')
+    const stdAssignmentRef = collection(database,'std_assignment')
 
     const getAllAssignmentSections = async()=>{
         try{
@@ -166,13 +167,34 @@ export function AdminContext({children}){
             })
     }
 
+    const getAllSubmissionSectionsByID = async(id)=>{
+        try{
+            const gradeQuery = query(stdAssignmentRef,where("uploadedAssignment","==",id))
+            const allSections = await getDocs(gradeQuery)
+            const arr = allSections.docs.map((item)=>{
+                return {...item.data(),id:item.id}
+            })
+            if(allSections.docs.length > 0){
+                const sections = arr.map((item)=>{
+                    return {...item,id:item.id}
+                })
+                return sections
+            }else{
+                return {}
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     const values = {
         addNewAssignmentSection,
         getAllAssignmentSections,
         getAllAssignmentSectionsById,
         deleteAssignmentSection,
         uploadAssignment,
-        deleteAssignmentFile
+        deleteAssignmentFile,
+        getAllSubmissionSectionsByID
     }
 
     return(
