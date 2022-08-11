@@ -2,6 +2,8 @@ import React from 'react'
 import Context from '../Auth.Context'
 import {getAuth,onAuthStateChanged,getUserData,signOut} from 'firebase/auth'
 import { useCookies } from 'react-cookie';
+import Navbar from '../components/Navbar';
+import '../styles/style.css'
 
 export default function Admin(){
     const [user,setUser] = React.useState({})
@@ -25,20 +27,18 @@ export default function Admin(){
         setUser(data)
     },[])
 
-    const handleSignout = ()=>{
-        signOut(auth)
-        removeCookie('token',{path:'/'})
-        window.location.assign('/')
-    }
     return(
         <div>
-            <h1>Student Dashboard</h1>
-            <div>
-                <h1>{user.name}</h1>
-                <h3>{user.email}</h3>
-                <a href="/student/all/assignments">All Assignments</a>
+            <Navbar
+                username={user.name}
+            />
+            <div className='container my-5'>
+                <div className='row'>
+                    <div className='col-6 bg-light py-3 border border-dark'>
+                        <a href="/student/all/assignments" className='text-decoration-none'>All Assignments</a>
+                    </div>
+                </div>
             </div>
-            <button onClick={handleSignout}>LogOut</button>
         </div>
     )
 }

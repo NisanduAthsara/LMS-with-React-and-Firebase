@@ -1,12 +1,7 @@
-.light-text{
-    font-weight: 400;
+body{
+    background-color: aqua;
 }
 
-.send-button{
-    margin-left:15px;
-}
-
-.scroll{
-    height:400px;
-    overflow-y: scroll;
+.onClick{
+    cursor:pointer;
 }
