@@ -3,6 +3,7 @@ import Context from '../Auth.Context'
 import {getAuth,onAuthStateChanged,getUserData,signOut} from 'firebase/auth'
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar'
 
 export default function Admin(){
     const [user,setUser] = React.useState({})
@@ -36,15 +37,28 @@ export default function Admin(){
     }
     return(
         <div>
-            <h1>Admin Dashboard</h1>
-            <div>
-                <h1>{user.name}</h1>
-                <h3>{user.email}</h3>
+            <Navbar
+                username={user.name}
+            />
+            <div className='container my-5'>
+                <div className='row g-2'>
+                    <div className='col-sm-6'>
+                        <div className='bg-light py-3 border border-dark'>
+                            <a href="/admin/new/signup" className='text-decoration-none px-2'>New Admin</a>
+                        </div>
+                    </div>
+                    <div className='col-sm-6'>
+                        <div className='bg-light py-3 border border-dark'>
+                            <a href="/all/students" className='text-decoration-none px-2'>All Students</a>
+                        </div>
+                    </div>
+                    <div className='col-sm-6'>
+                        <div className='bg-light py-3 border border-dark'>
+                            <a href="/all/assignments" className='text-decoration-none px-2'>Assignment Sections</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a href="/admin/new/signup">New Admin</a>
-            <a href="/all/students">All Students</a>
-            <a href="/all/assignments">Assignment Sections</a>
-            <button onClick={handleSignout}>LogOut</button>
         </div>
     )
 }

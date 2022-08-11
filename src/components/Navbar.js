@@ -11,10 +11,11 @@ export default function Navbar(props){
         removeCookie('token',{path:'/'})
         window.location.assign('/')
     }
+    const usernameDiv = props.username ? <h3 className="navbar-brand pt-2" href="#">Hi {props.username}!</h3> : <h3 className="navbar-brand pt-2" href="#">Welcome!</h3>
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex align-items-center">
             <div className="container-fluid">
-                <h3 className="navbar-brand pt-2" href="#">Hi {props.username}!</h3>
+                {usernameDiv}
                     
                 <a className="ms-auto onClick" onClick={handleSignout}>
                     SignOut
