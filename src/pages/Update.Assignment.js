@@ -9,7 +9,7 @@ export default function UpdateAssignment(){
     const [user,setUser] = React.useState({})
     const [file,setFile] = React.useState(null)
     const [formData,setFormData] = React.useState({})
-    const [assignmentData,setAssignmentData] = React.useState({})
+    const [assignmentData,setAssignmentData] = React.useState({assignment:false})
     const {getUserDetails} = React.useContext(Context)
     const {getAllAssignmentSectionsById,deleteAssignmentSection,uploadAssignment,deleteAssignmentFile} = React.useContext(AdminContext)
     const [data,setData] = React.useState({})
@@ -82,6 +82,8 @@ export default function UpdateAssignment(){
         setFormData({...formData,...{[e.target.name]:e.target.value}})
     }
 
+    const fileUploadField = assignmentData.assignment ? <div>LoL</div> : <input type="file" onChange={(e)=>handleFileChange(e)}/>
+    console.log(fileUploadField)
     return(
         <div>
             <button onClick={delSection}>Delete</button>
@@ -89,7 +91,7 @@ export default function UpdateAssignment(){
             <form>
                 <input type="text" name='name' value={formData.name} onChange={(e)=>handleChange(e)} placeholder='Name'/>
                 <input type="text" name='grade' value={formData.grade} onChange={(e)=>handleChange(e)} placeholder='Grade'/>
-                {assignmentData.assignment ? <div></div> : <input type="file" onChange={(e)=>handleFileChange(e)}/>}
+                {fileUploadField}
                 <button onClick={(e)=>handleSubmit(e)}>Upload</button>
             </form>
             
