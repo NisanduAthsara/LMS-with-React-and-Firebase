@@ -78,30 +78,34 @@ export default function AssignmentSectionAdd(){
                     </div>
                 </div>
             </div>
-            <form className="container my-5">
-                <div className='row w-100'>
-                    <div className="col-sm-12 d-flex justify-content-center">
-                        <div className=''>
-                            <div className="d-flex align-items-center justify-content-center mb-3">
-                                <label for="name" className="form-label ml-5">Name: </label>
-                                <input type="text" name='name' id="name" className='form-control' value={data.name} onChange={(e)=>handleChange(e)} placeholder='Name'/>
-                            </div>
-                            <div className="d-flex align-items-center justify-content-center mb-3">
-                                <label for="grade" className="form-label ml-5">Grade: </label>
-                                <input type="number" name='grade' id="grade" className='form-control' value={data.grade} onChange={(e)=>handleChange(e)} placeholder='Grade'/>
-                            </div>
-                            <div className="text-center p-5 border border-dark rounded mb-3">
-                                <label for="file">
-                                    {labelName}
-                                    <input type="file" id="file" onChange={(e)=>handleFileChange(e)}/>
-                                </label>
-                            </div>
+            <div className="container">
+                <div className='row'>
+                    <div className='col-sm-12 mt-5'>
+                    <form className='justify-content-center'>
+                        <div className='w-50 mx-auto'>
+                            <div className=''>
+                                <div className="d-flex align-items-center justify-content-center mb-3">
+                                    <label for="name" className="form-label ml-5">Name: </label>
+                                    <input type="text" name='name' id="name" className='form-control' value={data.name} onChange={(e)=>handleChange(e)} placeholder='Name'/>
+                                </div>
+                                <div className="d-flex align-items-center justify-content-center mb-3">
+                                    <label for="grade" className="form-label ml-5">Grade: </label>
+                                    <input type="number" name='grade' id="grade" className='form-control' value={data.grade} onChange={(e)=>handleChange(e)} placeholder='Grade'/>
+                                </div>
+                                <div className="text-center p-5 border border-dark rounded mb-3">
+                                    <label for="file">
+                                        {labelName}
+                                        <input type="file" id="file" onChange={(e)=>handleFileChange(e)}/>
+                                    </label>
+                                </div>
 
-                            <button onClick={(e)=>handleSubmit(e)} className='btn btn-primary'>Add</button>
+                                <button onClick={(e)=>handleSubmit(e)} className='btn btn-primary'>Add</button>
+                            </div>
                         </div>
+                    </form>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     )
 }
