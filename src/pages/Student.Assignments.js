@@ -4,6 +4,7 @@ import Student_Context from '../Student.Context';
 import {getAuth,onAuthStateChanged,getUserData,signOut} from 'firebase/auth'
 import { useCookies } from 'react-cookie';
 import SectionTable from '../components/Student.Section.Table'
+import Navbar from '../components/Navbar'
 
 export default function StudentAssignment(){
     const [user,setUser] = React.useState({})
@@ -59,17 +60,43 @@ export default function StudentAssignment(){
         removeCookie('token',{path:'/'})
         window.location.assign('/')
     }
+    const tabelDiv = <table className='table'>
+        <thead className='table-dark'>
+            <tr>
+                <th>Name</th>
+                <th>Teacher</th>
+                <th>Assignment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {sectionElements}
+        </tbody>
+    </table>
+
+    const emptyTag = <div class="alert alert-warning" role="alert">
+        Not Yet Added Any Assignments
+    </div>
+    const contentDiv = allSections.length > 0 ? tabelDiv : emptyTag
     return(
         <div>
-            <h1>Assignment Section</h1>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Teacher</th>
-                    <th>Assignment</th>
-                </tr>
-                {sectionElements}
-            </table>
+            <Navbar
+                username={user.name}
+            />
+            <div className='container'>
+                <div className='mt-3'>
+                    <div className='d-flex'>
+                        <a href='/student/dashboard' className='text-decoration-none btn btn-primary custom-margin-right'>Back</a>
+                    </div>
+                </div>
+            </div>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-sm-12 mt-5'>
+                        {contentDiv}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
