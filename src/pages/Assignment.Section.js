@@ -59,6 +59,28 @@ export default function AssignmentSection(){
         }
     },[allSections])
 
+    const tableDiv = <table className='table'>
+        <thead className='table-dark'>
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+                <th>Teacher</th>
+                <th>Assignment</th>
+                <th>Options</th>
+                <th>Submissions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {sectionElements}
+        </tbody>
+    </table>
+
+    const emptyDiv = <div class="alert alert-warning" role="alert">
+        Not Yet Any Assignments
+    </div>
+
+    const contentDiv = allSections.length > 0 ? tableDiv : emptyDiv
+
     return(
         <div>
             <Navbar
@@ -75,21 +97,7 @@ export default function AssignmentSection(){
             <div className='container'>
                 <div className='row d-flex justify-content-center'>
                     <div className='col-sm-12 mt-5'>
-                        <table className='table'>
-                            <thead className='table-dark'>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Grade</th>
-                                    <th>Teacher</th>
-                                    <th>Assignment</th>
-                                    <th>Options</th>
-                                    <th>Submissions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sectionElements}
-                            </tbody>
-                        </table>
+                        {contentDiv}
                     </div>
                 </div>
             </div>

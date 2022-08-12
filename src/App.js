@@ -17,6 +17,7 @@ import StudentAssignment from './pages/Student.Assignments'
 import AssignmentUpdate from './pages/Update.Assignment'
 import StudentAssignmentUpload from './pages/Student.Assignment.Upload'
 import StudentSubmissions from './pages/Student.Submissions'
+import Page404 from './pages/Page404'
 
 export default function App(){
     return(
@@ -37,6 +38,7 @@ export default function App(){
                 <Route path="/student/all/assignments" element={<StudentAssignment/>}/>
                 <Route path='/student/new/assignment/upload/:id' element={<StudentAssignmentUpload/>}/>
                 <Route path='/student/submissions/:id' element={<StudentSubmissions/>}/>
+                <Route path="*" element={<Page404/>}/>
             </Routes>
         </AdminContext>    
         </StudentContext>     

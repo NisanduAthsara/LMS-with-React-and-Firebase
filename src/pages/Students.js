@@ -65,6 +65,27 @@ export default function Student(){
         removeCookie('token',{path:'/'})
         window.location.assign('/')
     }
+    const tableDiv = <table className='table'>
+        <thead className='table-dark'>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Index No.</th>
+                <th>Class No.</th>
+                <th>Grade</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {studentElements}
+        </tbody>
+    </table>
+
+    const emptyDiv = <div class="alert alert-warning" role="alert">
+        Not Yet Any Students
+    </div>
+
+    const contentDiv = allStudents.length > 0 ? tableDiv : emptyDiv
 
     return(
         <div>
@@ -81,23 +102,7 @@ export default function Student(){
             <div className='container'>
                 <div className='row d-flex justify-content-center'>
                     <div className='col-sm-12 mt-5'>
-                        {studentElements &&
-                            <table className='table'>
-                                <thead className='table-dark'>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Index No.</th>
-                                        <th>Class No.</th>
-                                        <th>Grade</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {studentElements}
-                                </tbody>
-                            </table>
-                        }
+                        {contentDiv}
                     </div>
                 </div>
             </div>
