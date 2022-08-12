@@ -2,6 +2,7 @@ import React from 'react'
 import Context from '../Auth.Context'
 import {getAuth,onAuthStateChanged,getUserData,signOut} from 'firebase/auth'
 import { useCookies } from 'react-cookie';
+import Navbar from '../components/Navbar'
 
 export default function AdminSignUp(){
     const [crediantials,setCrediantials] = React.useState({})
@@ -45,16 +46,37 @@ export default function AdminSignUp(){
     }
     return(
         <div>
-            <h1>Admin Dashboard</h1>
-            <div>
-                <form>
-                    <input type="text" name='name' value={crediantials.name} onChange={(e)=>handleChange(e)} placeholder='Name'/>
-                    <input type="email" name='email' value={crediantials.email} onChange={(e)=>handleChange(e)} placeholder='Email'/>
-                    <input type="password" name='password' value={crediantials.password} onChange={(e)=>handleChange(e)} placeholder='Password'/>
-                    <button onClick={handleSubmit}>SignUp</button>
-                </form>
+            <Navbar
+                username={user.name}
+            />
+            <div className='container'>
+                <div className='mt-3'>
+                    <div className='d-flex'>
+                        <a href='/admin/dashboard' className='text-decoration-none btn btn-primary custom-margin-right'>Back</a>
+                    </div>
+                </div>
             </div>
-            <button onClick={handleSignout}>LogOut</button>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-sm-12'>
+                        <form className='form justify-content-center'>
+                            <div className="d-flex align-items-center justify-content-center">
+                                <label for="username" className="form-label ml-5">Username: </label>
+                                <input type="text" name='name' value={crediantials.name} onChange={(e)=>handleChange(e)} placeholder='Name' className='form-control w-50' id='username'/>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-center mt-2">
+                                <label for="email" className="form-label ml-5">Email: </label>
+                                <input type="email" name='email' value={crediantials.email} onChange={(e)=>handleChange(e)} placeholder='Email' className='form-control w-50' id='email'/>
+                            </div>
+                            <div className="d-flex align-items-center justify-content-center mt-2">
+                                <label for="password" className="form-label ml-5">Password: </label>
+                                <input type="password" name='password' value={crediantials.password} onChange={(e)=>handleChange(e)} placeholder='Password' className='form-control w-50' id='password'/>
+                            </div>
+                            <button onClick={handleSubmit} className='btn btn-primary mx-auto text-center d-flex justify-content-center my-3'>SignUp</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
