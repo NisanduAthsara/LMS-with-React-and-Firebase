@@ -5,6 +5,7 @@ import {getAuth,onAuthStateChanged,getUserData,signOut,deleteUser} from 'firebas
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom'
 import StudentTable from '../components/Student.Table'
+import Navbar from '../components/Navbar'
 
 export default function Student(){
     const [user,setUser] = React.useState({})
@@ -67,20 +68,40 @@ export default function Student(){
 
     return(
         <div>
-            <button onClick={handleSignout}>LogOut</button>
-            <h1>All Students</h1>
-            {studentElements &&
-                <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Index No.</th>
-                        <th>Class No.</th>
-                        <th>Grade</th>
-                    </tr>
-                    {studentElements}
-                </table>
-            }
+            <Navbar
+                username={user.name}
+            />
+            <div className='container'>
+                <div className='mt-3'>
+                    <div className=''>
+                        <a href='/admin/dashboard' className='text-decoration-none btn btn-primary'>Back</a>
+                    </div>
+                </div>
+            </div>
+            <div className='container'>
+                <div className='row d-flex justify-content-center'>
+                    <div className='col-sm-12 mt-5'>
+                        {studentElements &&
+                            <table className='table'>
+                                <thead className='table-dark'>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Index No.</th>
+                                        <th>Class No.</th>
+                                        <th>Grade</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {studentElements}
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+            
         </div>
     )
 }

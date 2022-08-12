@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/style.css'
 
 export default function StudentTable({name,email,index,uid,deleteStudent,id,classNo,grade}){
     
@@ -9,7 +10,7 @@ export default function StudentTable({name,email,index,uid,deleteStudent,id,clas
             <td>{index}</td>
             <td>{classNo}</td>
             <td>{grade}</td>
-            <button onClick={()=>deleteStudent(id)}>Delete</button>
+            <a onClick={()=>deleteStudent(id)} className='onClick d-flex align-items-center'>Delete</a>
         </tr>
     )
 }
