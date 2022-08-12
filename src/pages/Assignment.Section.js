@@ -5,6 +5,8 @@ import SectionTable from '../components/Section.Table'
 import {getAuth,onAuthStateChanged,getUserData,signOut,deleteUser} from 'firebase/auth'
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar'
+import '../styles/style.css'
 
 export default function AssignmentSection(){
     const [user,setUser] = React.useState({})
@@ -59,17 +61,38 @@ export default function AssignmentSection(){
 
     return(
         <div>
-            <a href="/new/assignment/section">New</a>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Grade</th>
-                    <th>Teacher</th>
-                    <th>Assignment</th>
-                    <th>Options</th>
-                </tr>
-                {sectionElements}
-            </table>
+            <Navbar
+                username={user.name}
+            />
+            <div className='container'>
+                <div className='mt-3'>
+                    <div className='d-flex'>
+                        <a href='/admin/dashboard' className='text-decoration-none btn btn-primary custom-margin-right'>Back</a>
+                        <a href='/new/assignment/section' className='text-decoration-none btn btn-primary'>New</a>
+                    </div>
+                </div>
+            </div>
+            <div className='container'>
+                <div className='row d-flex justify-content-center'>
+                    <div className='col-sm-12 mt-5'>
+                        <table className='table'>
+                            <thead className='table-dark'>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Grade</th>
+                                    <th>Teacher</th>
+                                    <th>Assignment</th>
+                                    <th>Options</th>
+                                    <th>Submissions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sectionElements}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
