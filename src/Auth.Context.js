@@ -79,7 +79,6 @@ export function AuthContext({children}){
                 const data = await getDocs(uidQuery)
                 if(data.docs.length > 0){
                     setCookie('token',uid)
-                    alert('Logged in successful')
                     const user = data.docs.map((item)=>{
                         return {...item.data(),id:item.id}
                     })[0]
