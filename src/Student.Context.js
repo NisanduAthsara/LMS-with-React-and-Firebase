@@ -5,6 +5,7 @@ import { ref,refFromURL,getDownloadURL,uploadBytesResumable,deleteObject} from "
 import {database,storage} from './firebaseConfig'
 import { useCookies } from 'react-cookie';
 import {v4} from 'uuid'
+import { useNavigate } from "react-router-dom";
 
 const Student_Context = createContext()
 export default Student_Context
@@ -15,6 +16,8 @@ export function StudentContext({children}){
     const collectionRef = collection(database,'users')
     const assignmentRef = collection(database,'assignment')
     const stdAssignmentRef = collection(database,'std_assignment')
+
+    const navigate = useNavigate()
 
     const getStudents = async ()=>{
         const typeQuery = query(collectionRef,where("type","==",'Student'))
@@ -77,7 +80,7 @@ export function StudentContext({children}){
                     })
                     .then(()=>{
                         alert('Assignment Added')
-                        window.location.assign('/student/all/assignments')
+                        navigate('/student/all/assignments')
                     })
                     .catch((err)=>{
                         console.log(err)
@@ -96,7 +99,7 @@ export function StudentContext({children}){
                 deleteDoc(docToDel)
                     .then(()=>{
                         alert('Section Deleted')
-                        window.location.assign('/student/all/assignments')
+                        navigate('/student/all/assignments')
                     })
                     .catch((err)=>{
                         console.log(err)
@@ -110,7 +113,7 @@ export function StudentContext({children}){
             deleteDoc(docToDel)
                 .then(()=>{
                     alert('Section Deleted')
-                    window.location.assign('/student/all/assignments')
+                    navigate('/student/all/assignments')
                 })
                 .catch((err)=>{
                     console.log(err)

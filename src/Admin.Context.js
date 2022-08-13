@@ -5,6 +5,7 @@ import { ref,refFromURL,getDownloadURL,uploadBytesResumable,deleteObject} from "
 import {database,storage} from './firebaseConfig'
 import { useCookies } from 'react-cookie';
 import {v4} from 'uuid'
+import { useNavigate } from "react-router-dom";
 
 const Admin_Context = createContext()
 export default Admin_Context
@@ -15,6 +16,8 @@ export function AdminContext({children}){
     const assignmentRef = collection(database,'assignment')
     const collectionRef = collection(database,'users')
     const stdAssignmentRef = collection(database,'std_assignment')
+
+    const navigate = useNavigate()
 
     const getAllAssignmentSections = async()=>{
         try{
@@ -64,7 +67,7 @@ export function AdminContext({children}){
                         teacher
                     })
                     alert('New Assignment section created')
-                    window.location.assign('/all/assignments')
+                    navigate('/all/assignments')
                 });
             })
         }catch(err){
@@ -81,7 +84,7 @@ export function AdminContext({children}){
                 deleteDoc(docToDel)
                     .then(()=>{
                         alert('Section Deleted')
-                        window.location.assign('/all/assignments')
+                        navigate('/all/assignments')
                     })
                     .catch((err)=>{
                         console.log(err)
@@ -95,7 +98,7 @@ export function AdminContext({children}){
             deleteDoc(docToDel)
                 .then(()=>{
                     alert('Section Deleted')
-                    window.location.assign('/all/assignments')
+                    navigate('/all/assignments')
                 })
                 .catch((err)=>{
                     console.log(err)
@@ -122,7 +125,7 @@ export function AdminContext({children}){
                     })
                     .then(()=>{
                         alert('Assignment Added')
-                        window.location.assign('/all/assignments')
+                        navigate('/all/assignments')
                     })
                     .catch((err)=>{
                         console.log(err)
@@ -137,7 +140,7 @@ export function AdminContext({children}){
             })
             .then(()=>{
                 alert('Data Updated')
-                window.location.assign('/all/assignments')
+                navigate('/all/assignments')
             })
             .catch((err)=>{
                 console.log(err)
@@ -156,7 +159,7 @@ export function AdminContext({children}){
                 })
                 .then(()=>{
                     alert('Assignment Deleted')
-                    window.location.assign('/all/assignments')
+                    navigate('/all/assignments')
                 })
                 .catch((err)=>{
                     console.log(err)

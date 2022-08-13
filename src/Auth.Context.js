@@ -3,6 +3,7 @@ import { collection,addDoc,getDocs,onSnapshot,query,where} from "firebase/firest
 import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword} from 'firebase/auth'
 import {database} from './firebaseConfig'
 import { useCookies } from 'react-cookie';
+import { useNavigate } from "react-router-dom";
 
 const Auth_Context = createContext()
 export default Auth_Context
@@ -13,6 +14,8 @@ export function AuthContext({children}){
     const auth = getAuth()
     const collectionRef = collection(database,'users')
     const [authState,setAuthState] = useState()
+
+    const navigate = useNavigate()
 
     const register = async (name,email,password,grade,classNo,index)=>{
         const indexQuery = query(collectionRef,where("index","==",index))
@@ -36,7 +39,7 @@ export function AuthContext({children}){
                     .then((data)=>{
                         setCookie('token',uid)
                         alert('User added');
-                        window.location.assign('/student/dashboard')
+                        navigate('/student/dashboard')
                     })
                     .catch((err)=>{
                         console.log(err.message)
@@ -61,7 +64,7 @@ export function AuthContext({children}){
                 .then((data)=>{
                     setCookie('token',uid)
                     alert('User added');
-                    window.location.assign('/admin/dashboard')
+                    navigate('/admin/dashboard')
                 })
                 .catch((err)=>{
                     console.log(err.message)
@@ -83,9 +86,9 @@ export function AuthContext({children}){
                         return {...item.data(),id:item.id}
                     })[0]
                     if(user.type === 'Student'){
-                        window.location.assign('/student/dashboard')
+                        navigate('/student/dashboard')
                     }else if(user.type === 'Admin'){
-                        window.location.assign('/admin/dashboard')
+                        navigate('/admin/dashboard')
                     }
                 }else{
                     alert('Invalid email or password')
