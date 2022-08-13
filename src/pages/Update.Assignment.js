@@ -4,6 +4,7 @@ import AdminContext from '../Admin.Context'
 import {getAuth,onAuthStateChanged,getUserData,signOut,deleteUser} from 'firebase/auth'
 import { useCookies } from 'react-cookie';
 import { Link,useParams } from 'react-router-dom'
+import Navbar from '../components/Navbar'
 
 export default function UpdateAssignment(){
     const [user,setUser] = React.useState({})
@@ -17,6 +18,18 @@ export default function UpdateAssignment(){
     const auth = getAuth()
 
     const {id} = useParams()
+
+    let fileName = null
+    if(file){
+        if(file.name.length > 15){
+            fileName = file.name.slice(0,15)+"....pdf"
+        }else{
+            fileName = file.name
+        }
+    }else{
+        fileName = ""
+    }
+    const labelName = fileName ? fileName : 'Select File'
 
     React.useEffect(()=>{
         async function fetchData(){
@@ -81,19 +94,49 @@ export default function UpdateAssignment(){
         console.log(formData)
         setFormData({...formData,...{[e.target.name]:e.target.value}})
     }
-
-    const fileUploadField = assignmentData.assignment ? <div>LoL</div> : <input type="file" onChange={(e)=>handleFileChange(e)}/>
-    console.log(fileUploadField)
+    const fileInput = <div className="text-center p-5 border border-dark rounded mb-3">
+        <label for="file">
+            {labelName}
+            <input type="file" id='file' onChange={(e)=>handleFileChange(e)}/>
+        </label>
+    </div>
+    const fileUploadField = assignmentData.assignment ? <div></div> : fileInput
     return(
         <div>
-            <button onClick={delSection}>Delete</button>
-            {assignmentData.assignment && <button onClick={()=>deleteAssignmentFile(assignmentData.assignment,id)}>Delete Assignment</button>}
-            <form>
-                <input type="text" name='name' value={formData.name} onChange={(e)=>handleChange(e)} placeholder='Name'/>
-                <input type="text" name='grade' value={formData.grade} onChange={(e)=>handleChange(e)} placeholder='Grade'/>
-                {fileUploadField}
-                <button onClick={(e)=>handleSubmit(e)}>Upload</button>
-            </form>
+            <Navbar
+                username={user.name}
+            />
+            <div className='container'>
+                <div className='mt-3'>
+                    <div className='d-flex'>
+                        <a href='/all/assignments' className='text-decoration-none btn btn-primary custom-margin-right'>Back</a>
+                        <button onClick={delSection} className='btn btn-danger custom-margin-right'>Delete</button>
+                        {assignmentData.assignment && <button onClick={()=>deleteAssignmentFile(assignmentData.assignment,id)} className='btn btn-danger ml-2'>Delete Assignment</button>}
+                    </div>
+                </div>
+            </div>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-sm-12'>
+                    <form className='form justify-content-center'>
+                        <div className='w-50 mx-auto'>
+                                <div className=''>
+                                    <div className="d-flex align-items-center justify-content-center mb-3">
+                                        <label for="name" className="form-label ml-5">Name: </label>
+                                        <input type="text" id='name' name='name' value={formData.name} onChange={(e)=>handleChange(e)} placeholder='Name' className='form-control'/>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-center mb-3">
+                                        <label for="grade" className="form-label ml-5">Grade: </label>
+                                        <input type="text" id='grade' name='grade' value={formData.grade} onChange={(e)=>handleChange(e)} placeholder='Grade' className='form-control'/>
+                                    </div>
+                                    {fileUploadField}
+                                    <button onClick={(e)=>handleSubmit(e)} className='btn btn-primary d-flex mx-auto justify-content-center text-center'>Upload</button>
+                                </div>    
+                        </div>            
+                    </form>
+                    </div>
+                </div>
+            </div>
             
         </div>
     )

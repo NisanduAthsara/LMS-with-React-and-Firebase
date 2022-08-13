@@ -15,7 +15,6 @@ export default function AssignmentSectionAdd(){
     const [file,setFile] = React.useState(null)
     const [cookies, setCookie,removeCookie] = useCookies(['token']);
     const auth = getAuth()
-    console.log(file)
     
     let fileName = null
     if(file){
