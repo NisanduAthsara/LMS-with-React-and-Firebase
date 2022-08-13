@@ -94,6 +94,7 @@ export function AuthContext({children}){
             })
             .catch((err)=>{
                 console.log(err)
+                alert('Invalid email or password')
             })
     }
 
